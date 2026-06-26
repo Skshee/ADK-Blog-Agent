@@ -9,7 +9,7 @@ from google.adk.tools import agent_tool
 
 load_dotenv()
 
-MODEL = os.getenv("MODEL","GOOGLE_API_KEY")
+MODEL = os.getenv("MODEL", "gemini-3.1-flash-lite")
 
 # Sub-Agent: Planner
 blog_planner = Agent(
@@ -44,14 +44,6 @@ Otherwise respond exactly "retry" and list missing pieces.
        )
 
 # Loops it 3 times until validation passes => Safety net if model forgets something, we can get it right again
-robust_blog_planner = LoopAgent(
-   name="RobustBlogPlanner",
-   description="Retries planning if validation fails.",
-   sub_agents=[blog_planner, OutlineValidationChecker()],
-   max_iterations=3,
-)
-
-
 robust_blog_planner = LoopAgent(
    name="RobustBlogPlanner",
    description="Retries planning if validation fails.",
